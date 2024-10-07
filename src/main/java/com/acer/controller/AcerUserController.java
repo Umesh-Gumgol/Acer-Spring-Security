@@ -3,6 +3,7 @@ package com.acer.controller;
 import com.acer.entity.AcerUser;
 import com.acer.exception.AcerException;
 import com.acer.repository.AcerUserRepository;
+import com.acer.service.AcerServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,9 +19,11 @@ import java.util.Optional;
 public class AcerUserController {
 
     private AcerUserRepository acerUserRepository;
+    private AcerServiceImpl acerService;
 
-    public AcerUserController(AcerUserRepository acerUserRepository) {
+    public AcerUserController(AcerUserRepository acerUserRepository, AcerServiceImpl acerService) {
         this.acerUserRepository = acerUserRepository;
+        this.acerService = acerService;
     }
 
     //http://localhost:8080/api/vol1/user/post
@@ -36,7 +39,7 @@ public class AcerUserController {
            throw new AcerException("username already exists ");
 
        }
-        AcerUser saved = acerUserRepository.save(acerUser);
-       return new ResponseEntity<>(saved,HttpStatus.CREATED);
+        AcerUser saved = acerService.createAcerPost(acerUser);
+        return new ResponseEntity<>(saved,HttpStatus.CREATED);
     }
 }

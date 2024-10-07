@@ -1,5 +1,6 @@
 package com.acer.controller;
 
+import com.acer.dto.LoginDto;
 import com.acer.entity.AcerUser;
 import com.acer.exception.AcerException;
 import com.acer.repository.AcerUserRepository;
@@ -41,5 +42,14 @@ public class AcerUserController {
        }
         AcerUser saved = acerService.createAcerPost(acerUser);
         return new ResponseEntity<>(saved,HttpStatus.CREATED);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<String> loginAcer(@RequestBody LoginDto loginDto){
+        boolean login = acerService.verifyLogin(loginDto);
+        if(login){
+            return new ResponseEntity<>("login successfull",HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>("invalid credentials",HttpStatus.UNAUTHORIZED);
+        }
     }
 }
